@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EugenConsultancy - Expert in Data Analysis, Web Design & Writing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            scroll-behavior: smooth;
+        }
+        .section-padding {
+            padding: 6rem 1rem; /* Increased padding for better visual separation */
+        }
+        .card-hover-effect {
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+        }
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary {
+            @apply bg-blue-600 text-white px-6 py-3 rounded-lg shadow-md hover:bg-blue-700 transition duration-300;
+        }
+        .btn-secondary {
+            @apply bg-gray-200 text-gray-800 px-6 py-3 rounded-lg shadow-md hover:bg-gray-300 transition duration-300;
+        }
+        /* Custom scrollbar for code blocks */
+        .code-block-container {
+            max-height: 400px; /* Limit height for scrollability */
+            overflow-y: auto;
+            background-color: #2d2d2d; /* Dark background for code */
+            color: #f8f8f2; /* Light text for code */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-family: 'Fira Code', 'Cascadia Code', monospace; /* Monospace font for code */
+            font-size: 0.875rem;
+            line-height: 1.4;
+            white-space: pre-wrap; /* Preserve whitespace and wrap long lines */
+            word-break: break-all; /* Break long words */
+        }
+        .code-block-container::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        .code-block-container::-webkit-scrollbar-track {
+            background: #444;
+            border-radius: 10px;
+        }
+        .code-block-container::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        .code-block-container::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1000; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border-radius: 0.75rem;
+            width: 90%;
+            max-width: 800px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 20px;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <nav class="bg-white shadow-lg fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex-shrink-0 text-2xl font-bold text-blue-600 rounded-lg p-2">EugenConsultancy Portfolio</a>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">About Me</a>
+                    <a href="#skills" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Skills</a>
+                    <a href="#portfolio" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Portfolio</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Contact</a>
+                </div>
+                <div class="-mr-2 flex md:hidden items-center">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="md:hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">About Me</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">Skills</a>
+                <a href="#portfolio" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">Portfolio</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="bg-gradient-to-r from-blue-600 to-blue-800 text-white section-padding pt-24">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-5xl font-extrabold mb-4 rounded-lg p-2">Hello, I'm EugenConsultancy</h1>
+            <p class="text-xl mb-8 max-w-3xl mx-auto">
+                A versatile professional specializing in <strong>SPSS Data Analysis, Frontend Web Design, Academic & Article Writing, Technical SEO, and Thesis & Research Support.</strong> I transform complex challenges into clear, impactful solutions.
+            </p>
+            <a href="#portfolio" class="btn-primary inline-block">View My Work</a>
+        </div>
+    </section>
+
+    <section id="about" class="bg-white section-padding">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-blue-700">About Me</h2>
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="text-lg leading-relaxed">
+                    <p class="mb-4">
+                        With a robust background spanning statistical analysis, web development, and content creation, I bring a unique blend of analytical rigor and creative communication to every project. My expertise lies in translating intricate data into actionable insights, crafting compelling narratives, and optimizing digital presence for maximum impact.
+                    </p>
+                    <p class="mb-4">
+                        My approach is always client-focused, ensuring that solutions are not only technically sound but also strategically aligned with business objectives. Whether it's dissecting complex datasets, building intuitive web experiences, or developing high-ranking content, I am committed to delivering excellence and measurable results.
+                    </p>
+                    <p>
+                        I am passionate about continuous learning and staying at the forefront of industry best practices to provide cutting-edge solutions. Let's connect and explore how my diverse skill set can drive your next project to success.
+                    </p>
+                </div>
+                <div class="flex justify-center">
+                    <img src="https://placehold.co/640x640/2c5282/ffffff?text=EugenConsultancy" alt="EugenConsultancy - Professional Photo" class="rounded-full shadow-xl border-4 border-blue-200 w-64 h-64 object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="bg-gray-100 section-padding">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-blue-700">My Core Competencies</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover-effect border-t-4 border-blue-500">
+                    <h3 class="text-2xl font-semibold mb-4 text-blue-600">SPSS Data Analysis</h3>
+                    <p class="text-gray-700 mb-4">
+                        Expert in end-to-end statistical analysis using SPSS. I transform raw data into actionable insights, focusing on problem identification, rigorous methodology, and quantifiable outcomes.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 text-sm">
+                        <li>Descriptive Statistics & Data Cleaning</li>
+                        <li>Group Comparisons (t-tests, ANOVA)</li>
+                        <li>Correlation & Regression Analysis (Linear, Multinomial Logistic)</li>
+                        <li>Non-Parametric Tests & Dimensionality Reduction (Factor Analysis)</li>
+                        <li>Actionable Recommendations & ROI-focused Reporting</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover-effect border-t-4 border-green-500">
+                    <h3 class="text-2xl font-semibold mb-4 text-green-600">Frontend Web Design</h3>
+                    <p class="text-gray-700 mb-4">
+                        Crafting intuitive, responsive, and visually engaging web experiences using HTML, CSS, and JavaScript. My designs prioritize user experience and modern web standards.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 text-sm">
+                        <li>HTML5, CSS3, JavaScript (Vanilla JS)</li>
+                        <li>Responsive & Mobile-First Design</li>
+                        <li>Tailwind CSS for rapid development</li>
+                        <li>Focus on User Interface (UI) & User Experience (UX)</li>
+                        <li>Cross-browser compatibility</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover-effect border-t-4 border-yellow-500">
+                    <h3 class="text-2xl font-semibold mb-4 text-yellow-600">Academic & Research Writing</h3>
+                    <p class="text-gray-700 mb-4">
+                        Comprehensive support for students and researchers in developing academically rigorous and publication-ready content, including theses, dissertations, and research papers.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 text-sm">
+                        <li>Thesis & Dissertation Writing Support</li>
+                        <li>Research Proposal Development</li>
+                        <li>Literature Review & Methodology Sections</li>
+                        <li>Editing, Formatting, and Citation (APA, MLA, etc.)</li>
+                        <li>Anti-Plagiarism Strategies & Academic Integrity</li>
+                    </ul>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg card-hover-effect border-t-4 border-purple-500">
+                    <h3 class="text-2xl font-semibold mb-4 text-purple-600">Technical SEO & Content Writing</h3>
+                    <p class="text-gray-700 mb-4">
+                        Creating high-ranking, engaging content and optimizing websites to improve search engine visibility and drive organic traffic.
+                    </p>
+                    <ul class="list-disc list-inside text-gray-600 text-sm">
+                        <li>On-page SEO (Keyword Research, Meta Tags)</li>
+                        <li>Off-page SEO (Link Building)</li>
+                        <li>Content Strategy & Blog Post Creation</li>
+                        <li>Technical SEO Audits & Implementation</li>
+                        <li>Performance Optimization & Site Speed</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="bg-white section-padding">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-12 text-blue-700">My Portfolio: Projects & Case Studies</h2>
+
+            <div class="mb-16">
+                <h3 class="text-3xl font-bold text-blue-600 mb-8 border-b-2 pb-2 border-blue-200">Frontend & Web Projects</h3>
+                <div class="grid md:grid-cols-1 gap-8">
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-md card-hover-effect">
+                        <h4 class="text-2xl font-semibold text-gray-800 mb-4">Sample Website Portfolio</h4>
+                        <p class="text-gray-600 mb-4">
+                            A responsive portfolio showcasing web design and SEO expertise, with interactive modules and a modern user interface.
+                        </p>
+                        <div class="bg-white border border-gray-200 rounded-lg p-2 shadow-inner">
+                            <iframe srcdoc="
+                                <!DOCTYPE html>
+                                <html lang='en'>
+                                <head>
+                                    <meta charset='UTF-8'>
+                                    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+                                    <title>My Portfolio: Frontend Web Design & SEO for Bloggers</title>
+                                    <script src='https://cdn.tailwindcss.com'></script>
+                                    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css'>
+                                    <style>
+                                        body {
+                                            font-family: 'Inter', sans-serif;
+                                            background-color: #f0f2f5;
+                                            color: #333;
+                                            line-height: 1.6;
+                                        }
+                                        html {
+                                            scroll-behavior: smooth;
+                                        }
+                                        .accordion-header {
+                                            cursor: pointer;
+                                            transition: background-color 0.3s ease, color 0.3s ease;
+                                        }
+                                        .accordion-header:hover {
+                                            background-color: #e2e8f0;
+                                            color: #2c5282;
+                                        }
+                                        .accordion-content {
+                                            max-height: 0;
+                                            overflow: hidden;
+                                            transition: max-height 0.5s ease-out, padding 0.5s ease-out;
+                                            padding: 0 1.5rem;
+                                        }
+                                        .accordion-content.active {
+                                            max-height: 1500px;
+                                            padding-top: 1.5rem;
+                                            padding-bottom: 1.5rem;
+                                            transition: max-height 0.7s ease-in, padding 0.7s ease-in;
+                                        }
+                                        .accordion-header i {
+                                            transition: transform 0.3s ease;
+                                        }
+                                        .accordion-header.active i {
+                                            transform: rotate(180deg);
+                                        }
+                                        .serp-snippet {
+                                            border: 1px solid #dadce0;
+                                            border-radius: 8px;
+                                            padding: 1rem;
+                                            background-color: #fff;
+                                            font-family: Arial, sans-serif;
+                                            margin-top: 1.5rem;
+                                        }
+                                        .serp-title {
+                                            color: #1a0dab;
+                                            font-size: 1.25rem;
+                                            font-weight: normal;
+                                            line-height: 1.3;
+                                            margin-bottom: 0.25rem;
+                                            word-break: break-all;
+                                        }
+                                        .serp-url {
+                                            color: #006621;
+                                            font-size: 0.875rem;
+                                            line-height: 1.2;
+                                            margin-bottom: 0.25rem;
+                                            word-break: break-all;
+                                        }
+                                        .serp-description {
+                                            color: #4d5156;
+                                            font-size: 0.875rem;
+                                            line-height: 1.4;
+                                            word-break: break-all;
+                                        }
+                                        .spinner {
+                                            border: 4px solid rgba(0, 0, 0, 0.1);
+                                            border-left-color: #3b82f6;
+                                            border-radius: 50%;
+                                            width: 24px;
+                                            height: 24px;
+                                            animation: spin 1s linear infinite;
+                                        }
+                                        @keyframes spin {
+                                            to { transform: rotate(360deg); }
+                                        }
+                                    </style>
+                                </head>
+                                <body>
+                                    <header class='bg-gray-900 text-white p-4 shadow-xl sticky top-0 z-50'>
+                                        <div class='container mx-auto flex justify-between items-center flex-wrap'>
+                                            <h1 class='text-3xl font-extrabold rounded-md p-2 bg-gradient-to-r from-blue-600 to-purple-600 shadow-md'>My Pro Portfolio</h1>
+                                            <nav class='mt-4 md:mt-0'>
+                                                <ul class='hidden md:flex space-x-6'>
+                                                    <li><a href='#home' class='hover:text-blue-300 transition duration-300 ease-in-out p-2 rounded-md'>Home</a></li>
+                                                    <li><a href='#about' class='hover:text-blue-300 transition duration-300 ease-in-out p-2 rounded-md'>About & Skills</a></li>
+                                                    <li><a href='#blogging-principles' class='hover:text-blue-300 transition duration-300 ease-in-out p-2 rounded-md'>Blogging & SEO</a></li>
+                                                    <li><a href='#services' class='hover:text-blue-300 transition duration-300 ease-in-out p-2 rounded-md'>My Services</a></li>
+                                                    <li><a href='#portfolio' class='hover:text-blue-300 transition duration-300 ease-in-out p-2 rounded-md'>Portfolio</a></li>
+                                                    <li><a href='#contact' class='hover:text-blue-300 transition duration-300 ease-in-out p-2 rounded-md'>Contact</a></li>
+                                                </ul>
+                                                <button id='mobile-menu-button' class='md:hidden text-white focus:outline-none'>
+                                                    <i class='fas fa-bars text-2xl'></i>
+                                                </button>
+                                            </nav>
+                                        </div>
+                                        <div id='mobile-menu' class='hidden md:hidden absolute top-full left-0 w-full bg-gray-800 shadow-lg py-4'>
+                                            <ul class='flex flex-col items-center space-y-4'>
+                                                <li><a href='#home' class='block py-2 px-4 text-white hover:bg-gray-700 w-full text-center rounded-md'>Home</a></li>
+                                                <li><a href='#about' class='block py-2 px-4 text-white hover:bg-gray-700 w-full text-center rounded-md'>About & Skills</a></li>
+                                                <li><a href='#blogging-principles' class='block py-2 px-4 text-white hover:bg-gray-700 w-full text-center rounded-md'>Blogging & SEO</a></li>
+                                                <li><a href='#services' class='block py-2 px-4 text-white hover:bg-gray-700 w-full text-center rounded-md'>My Services</a></li>
+                                                <li><a href='#portfolio' class='block py-2 px-4 text-white hover:bg-gray-700 w-full text-center rounded-md'>Portfolio</a></li>
+                                                <li><a href='#contact' class='block py-2 px-4 text-white hover:bg-gray-700 w-full text-center rounded-md'>Contact</a></li>
+                                            </ul>
+                                        </div>
+                                    </header>
+                                    <section id='home' class='bg-gradient-to-br from-blue-700 to-indigo-800 text-white py-24 px-4 text-center shadow-2xl rounded-b-3xl'>
+                                        <div class='container mx-auto'>
+                                            <h2 class='text-6xl font-extrabold mb-6 leading-tight animate-fade-in-down'>Unlock Your Blog's Potential: <br>Expert Frontend Design & SEO Strategies</h2>
+                                            <p class='text-2xl max-w-3xl mx-auto mb-10 opacity-90 animate-fade-in-up'>
+                                                As a competent SEO and frontend web designer, I craft high-performance, visually stunning websites that not only captivate your audience but also dominate search engine rankings and drive conversions.
+                                            </p>
+                                            <a href='#services' class='inline-block bg-white text-blue-800 px-10 py-4 rounded-full text-xl font-semibold shadow-lg hover:bg-gray-200 transition duration-300 ease-in-out transform hover:scale-105 animate-bounce-once'>
+                                                Discover My SEO & Web Design Services
+                                            </a>
+                                        </div>
+                                    </section>
+                                    <section id='about' class='py-20 px-4 bg-white shadow-lg rounded-xl mx-auto my-12 max-w-7xl'>
+                                        <div class='container mx-auto'>
+                                            <h3 class='text-5xl font-bold text-center mb-16 text-gray-800'>About Me & My Expertise</h3>
+                                            <div class='flex flex-col md:flex-row items-center justify-center gap-16'>
+                                                <div class='md:w-1/2 text-center md:text-left'>
+                                                    <p class='text-xl mb-8 leading-relaxed text-gray-700'>
+                                                        I am a dedicated frontend web designer and a **results-driven SEO specialist** with a passion for building exceptional digital experiences. My work focuses on the intersection of beautiful design, robust functionality, and strategic search engine optimization.
+                                                    </p>
+                                                    <p class='text-xl leading-relaxed text-gray-700'>
+                                                        I help clients achieve higher rankings, attract more targeted traffic, and convert visitors into loyal customers by implementing cutting-edge frontend techniques and **proven, data-backed SEO methodologies.** My goal is to ensure your online presence is not just visible, but truly impactful.
+                                                    </p>
+                                                </div>
+                                                <div class='md:w-1/2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8'>
+                                                    <div class='bg-gradient-to-br from-red-50 to-red-100 p-8 rounded-xl shadow-md text-center transform transition duration-300 hover:scale-105 hover:shadow-xl border border-red-200'>
+                                                        <i class='fab fa-html5 text-red-600 text-6xl mb-5'></i>
+                                                        <h4 class='text-2xl font-semibold mb-3 text-gray-800'>HTML5</h4>
+                                                        <p class='text-gray-700'>Semantic, accessible, and clean markup for robust web foundations.</p>
+                                                    </div>
+                                                    <div class='bg-gradient-to-br from-blue-50 to-blue-100 p-8 rounded-xl shadow-md text-center transform transition duration-300 hover:scale-105 hover:shadow-xl border border-blue-200'>
+                                                        <i class='fab fa-css3-alt text-blue-600 text-6xl mb-5'></i>
+                                                        <h4 class='text-2xl font-semibold mb-3 text-gray-800'>CSS3 & Tailwind</h4>
+                                                        <p class='text-gray-700'>Modern, responsive, and efficient styling with utility-first frameworks.</p>
+                                                    </div>
+                                                    <div class='bg-gradient-to-br from-yellow-50 to-yellow-100 p-8 rounded-xl shadow-md text-center transform transition duration-300 hover:scale-105 hover:shadow-xl border border-yellow-200'>
+                                                        <i class='fab fa-js text-yellow-600 text-6xl mb-5'></i>
+                                                        <h4 class='text-2xl font-semibold mb-3 text-gray-800'>JavaScript</h4>
+                                                        <p class='text-gray-700'>Dynamic interactions, complex functionalities, and engaging user experiences.</p>
+                                                    </div>
+                                                    <div class='bg-gradient-to-br from-purple-50 to-purple-100 p-8 rounded-xl shadow-md text-center transform transition duration-300 hover:scale-105 hover:shadow-xl border border-purple-200'>
+                                                        <i class='fas fa-mobile-alt text-purple-600 text-6xl mb-5'></i>
+                                                        <h4 class='text-2xl font-semibold mb-3 text-gray-800'>Responsive Design</h4>
+                                                        <p class='text-gray-700'>Flawless user experience across all devices and screen sizes.</p>
+                                                    </div>
+                                                    <div class='bg-gradient-to-br from-green-50 to-green-100 p-8 rounded-xl shadow-md text-center transform transition duration-300 hover:scale-105 hover:shadow-xl border border-green-200'>
+                                                        <i class='fas fa-chart-line text-green-600 text-6xl mb-5'></i>
+                                                        <h4 class='text-2xl font-semibold mb-3 text-gray-800'>SEO Strategy</h4>
+                                                        <p class='text-gray-700'>Data-driven approaches to improve organic visibility and traffic.</p>
+                                                    </div>
+                                                    <div class='bg-gradient-to-br from-indigo-50 to-indigo-100 p-8 rounded-xl shadow-md text-center transform transition duration-300 hover:scale-105 hover:shadow-xl border border-indigo-200'>
+                                                        <i class='fas fa-tachometer-alt text-indigo-600 text-6xl mb-5'></i>
+                                                        <h4 class='text-2xl font-semibold mb-3 text-gray-800'>Performance Optimization</h4>
+                                                        <p class='text-gray-700'>Speeding up websites for better user experience and search rankings.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <section id='blogging-principles' class='py-20 px-4 bg-gray-100 shadow-inner rounded-xl mx-auto my-12 max-w-7xl'>
+                                        <div class='container mx-auto'>
+                                            <h3 class='text-5xl font-bold text-center mb-16 text-gray-800'>Essential Blogging & SEO Fundamentals</h3>
+                                            <div class='space-y-6'>
+                                                <div class='bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200'>
+                                                    <div class='accordion-header p-7 flex justify-between items-center bg-blue-600 text-white font-bold text-2xl rounded-t-xl'>
+                                                        <span>1. Understanding Search Engines & SEO Basics</span>
+                                                        <i class='fas fa-chevron-down text-xl'></i>
+                                                    </div>
+                                                    <div class='accordion-content'>
+                                                        <div class='p-6'>
+                                                            <p class='mb-4 text-lg text-gray-700'>Search engines like Google work by crawling the web, indexing content, and then ranking results based on complex algorithms to provide the most relevant answers to user queries.</p>
+                                                            <h4 class='text-3xl font-semibold mb-4 text-blue-800'>How Search Engines Work:</h4>
+                                                            <ul class='list-disc list-inside space-y-3 ml-6 text-lg text-gray-700'>
+                                                                <li><strong>Crawling:</strong> Search engine bots (spiders) discover new and updated web pages by following links.</li>
+                                                                <li><strong>Indexing:</strong> The content of crawled pages is analyzed and stored in a massive database, making it searchable.</li>
+                                                                <li><strong>Ranking Algorithms:</strong> Complex algorithms (like PageRank, Hummingbird, RankBrain) evaluate hundreds of factors to determine which pages are most relevant for a given search query.</li>
+                                                                <li><strong>Serving Results:</strong> The indexed pages are then presented to the user in a ranked order.</li>
+                                                            </ul>
+                                                            <h4 class='text-3xl font-semibold mt-8 mb-4 text-blue-800'>Key SEO Fundamentals:</h4>
+                                                            <ul class='list-disc list-inside space-y-3 ml-6 text-lg text-gray-700'>
+                                                                <li><strong>On-Page SEO:</strong> Optimizing individual web pages to rank higher and earn more relevant traffic in search engines. This includes optimizing titles, meta descriptions, headings, and content.</li>
+                                                                <li><strong>Off-Page SEO:</strong> Actions taken outside of your website to impact your rankings. This is mainly about link building and getting other reputable sites to link to yours.</li>
+                                                                <li><strong>Technical SEO:</strong> Ensuring that search engine crawlers can efficiently crawl and index your website. This includes site speed, mobile-friendliness, site architecture, and structured data.</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class='bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200'>
+                                                    <div class='accordion-header p-7 flex justify-between items-center bg-blue-600 text-white font-bold text-2xl'>
+                                                        <span>2. Strategic Content Creation for SEO</span>
+                                                        <i class='fas fa-chevron-down text-xl'></i>
+                                                    </div>
+                                                    <div class='accordion-content'>
+                                                        <div class='p-6'>
+                                                            <p class='mb-4 text-lg text-gray-700'>Content is the fuel for your SEO efforts. High-quality, original content that provides value to your audience is essential for ranking well.</p>
+                                                            <h4 class='text-3xl font-semibold mb-4 text-blue-800'>Core Content Principles:</h4>
+                                                            <ul class='list-disc list-inside space-y-3 ml-6 text-lg text-gray-700'>
+                                                                <li><strong>Keyword Research:</strong> Identifying the terms and phrases your target audience is using to find information.</li>
+                                                                <li><strong>User Intent:</strong> Creating content that directly addresses the user's underlying goal or question behind a search query.</li>
+                                                                <li><strong>Value & Uniqueness:</strong> Producing content that is better, more comprehensive, or more engaging than what already exists.</li>
+                                                                <li><strong>Content Structure:</strong> Using clear headings, short paragraphs, and bullet points to improve readability and user experience.</li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                                    <script>
+                                        document.addEventListener('DOMContentLoaded', () => {
+                                            const mobileMenuButton = document.getElementById('mobile-menu-button');
+                                            const mobileMenu = document.getElementById('mobile-menu');
+                                            mobileMenuButton.addEventListener('click', () => {
+                                                mobileMenu.classList.toggle('hidden');
+                                            });
+                                            const accordionHeaders = document.querySelectorAll('.accordion-header');
+                                            accordionHeaders.forEach(header => {
+                                                header.addEventListener('click', () => {
+                                                    const accordionContent = header.nextElementSibling;
+                                                    const icon = header.querySelector('i');
+                                                    header.classList.toggle('active');
+                                                    accordionContent.classList.toggle('active');
+                                                    if (accordionContent.style.maxHeight) {
+                                                        accordionContent.style.maxHeight = null;
+                                                    } else {
+                                                        accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                                                    }
+                                                    icon.classList.toggle('fa-chevron-down');
+                                                    icon.classList.toggle('fa-chevron-up');
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                </body>
+                                </html>"
+                                sandbox="allow-scripts allow-same-origin"
+                                frameborder="0"
+                                class="w-full h-[600px] rounded-lg"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-16">
+                <h3 class="text-3xl font-bold text-blue-600 mb-8 border-b-2 pb-2 border-blue-200">SPSS Data Analysis</h3>
+                <div class="grid md:grid-cols-1 gap-8">
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-md card-hover-effect">
+                        <h4 class="text-2xl font-semibold text-gray-800 mb-4">Statistical Classification of Iris Species</h4>
+                        <p class="text-gray-600 mb-4">
+                            A case study demonstrating the use of **SPSS** for end-to-end statistical analysis, from data exploration to advanced regression and dimensionality reduction. [cite_start]This project successfully classified Iris species based on their morphological features with high accuracy[cite: 5, 56].
+                        </p>
+                        <p class="text-lg font-bold text-blue-600">Methodology & Key Findings:</p>
+                        <ul class="list-disc list-inside text-gray-700 space-y-2 mb-4 ml-4">
+                            [cite_start]<li>**Objective:** To distinguish between three Iris species (**Setosa, Versicolor, and Virginica**) using physical measurements[cite: 6, 11]. [cite_start]The goal was to provide a data-driven approach to assist in precise biological classification[cite: 12].</li>
+                            [cite_start]<li>**Data Source:** The canonical Iris Dataset, which contains 150 instances of Iris flowers, with 50 samples for each of the three species[cite: 13, 14].</li>
+                            [cite_start]<li>**Key Finding 1:** The analysis revealed that petal length and petal width are the most powerful features for distinguishing between species[cite: 54]. [cite_start]A high positive correlation between these two measurements was found[cite: 55].</li>
+                            [cite_start]<li>**Key Finding 2:** A **Multinomial Logistic Regression** model achieved a **96% overall classification accuracy** using only petal length and petal width as predictors[cite: 56].</li>
+                            [cite_start]<li>**Key Finding 3:** **Factor analysis** showed that the four measurements can be simplified into two underlying factors, which explain nearly 98% of the total variance[cite: 60].</li>
+                        </ul>
+                        <button onclick="document.getElementById('iris-modal').style.display='flex'" class="btn-primary">View Full Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div id="iris-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('iris-modal').style.display='none'">&times;</span>
+            <h3 class="text-3xl font-bold text-blue-700 mb-4">Statistical Classification of Iris Species</h3>
+            <div class="code-block-container mt-4">
+                <h4 class="text-xl font-semibold text-white mb-2">SPSS Syntax for Data Import and Setup:</h4>
+                <pre class="text-gray-200"><code>
+* Conceptual SPSS Syntax for Data Import
+GET DATA
+/TYPE=TXT
+/FILE="C:\path\to\iris.data"
+/DELIMITERS=","
+/ARRANGEMENT=DELIMITED
+/FIRSTCASE=1
+/IMPORTCASE=ALL
+/VARIABLES=
+SepalLength F8.2
+SepalWidth F8.2
+PetalLength F8.2
+PetalWidth F8.2
+Species A15.
+CACHE.
+EXECUTE.
+* Assigning Value Labels for the Species variable for better readability
+VALUE LABELS Species
+'Iris-setosa' 'Setosa'
+'Iris-versicolor' 'Versicolor'
+'Iris-virginica' 'Virginica'.
+EXECUTE.
+                </code></pre>
+            </div>
+            <div class="code-block-container mt-4">
+                <h4 class="text-xl font-semibold text-white mb-2">SPSS Syntax for One-Way ANOVA:</h4>
+                <pre class="text-gray-200"><code>
+ONEWAY SepalLength SepalWidth PetalLength PetalWidth BY Species
+/STATISTICS=DESCRIPTIVES HOMOGENEITY
+/POSTHOC=BONFERRONI ALPHA(0.05)
+/PLOT=MEANS
+/MISSING=ANALYSIS.
+                </code></pre>
+            </div>
+            <div class="code-block-container mt-4">
+                <h4 class="text-xl font-semibold text-white mb-2">SPSS Syntax for Multinomial Logistic Regression:</h4>
+                <pre class="text-gray-200"><code>
+NOMREG Species BY PetalLength PetalWidth
+/CRITERIA=CIN(95) ITERATE(100)
+/MODEL=PetalLength PetalWidth
+/PRINT=PARAMETER SUMMARY CLASSTABLE.
+                </code></pre>
+            </div>
+            <div class="code-block-container mt-4">
+                <h4 class="text-xl font-semibold text-white mb-2">SPSS Syntax for Factor Analysis:</h4>
+                <pre class="text-gray-200"><code>
+FACTOR
+/VARIABLES SepalLength SepalWidth PetalLength PetalWidth
+/PRINT INITIAL EXTRACTION ROTATION KMO MSA
+/CRITERIA FACTORS(AUTO) ITERATE(25)
+/EXTRACTION=PA1
+/ROTATION=VARIMAX
+/PLOT EIGEN.
+                </code></pre>
+            </div>
+        </div>
+    </div>
+    
+    <section id="contact" class="bg-gray-100 section-padding">
+        <div class="max-w-7xl mx-auto text-center">
+            <h2 class="text-4xl font-bold mb-8 text-blue-700">Get in Touch</h2>
+            <p class="text-lg max-w-2xl mx-auto mb-8 text-gray-700">
+                Ready to start your next project? Let's discuss how my skills in data analysis, web design, and professional writing can help you achieve your goals.
+            </p>
+            <div class="flex justify-center space-x-6 text-2xl text-gray-600">
+                <a href="#" class="hover:text-blue-600 transition duration-300"><i class="fas fa-envelope"></i></a>
+                <a href="#" class="hover:text-blue-600 transition duration-300"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="hover:text-blue-600 transition duration-300"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="hover:text-blue-600 transition duration-300"><i class="fab fa-github"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-blue-800 text-white py-8">
+        <div class="max-w-7xl mx-auto text-center">
+            <p>&copy; 2025 EugenConsultancy. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Modal script
+        var modal = document.getElementById("iris-modal");
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
